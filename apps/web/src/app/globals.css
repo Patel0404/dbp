@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light dark;
+  --page-bg: #0b1020;
+  --card-bg: #11182b;
+  --card-border: #1c2540;
+  --text-primary: #f3f5fb;
+  --text-secondary: #aab3cf;
+  --text-muted: #6e7a9b;
+  --accent: #3b5bff;
+}
+
+html, body {
+  background: var(--page-bg);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  min-height: 100%;
+}
+
+body {
+  font-family: Inter, system-ui, sans-serif;
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+}
+
+.muted { color: var(--text-muted); }
+.secondary { color: var(--text-secondary); }
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: rgba(59, 91, 255, 0.12);
+  color: #b2beff;
+  border: 1px solid rgba(59, 91, 255, 0.25);
+}
+
+.chip-pos { background: rgba(26, 168, 106, 0.12); color: #8fe0b5; border-color: rgba(26, 168, 106, 0.25); }
+.chip-neg { background: rgba(215, 65, 65, 0.12); color: #f3a6a6; border-color: rgba(215, 65, 65, 0.25); }
+.chip-warn { background: rgba(217, 139, 31, 0.12); color: #f3cb89; border-color: rgba(217, 139, 31, 0.25); }
+
+.pill-row { display: flex; gap: 6px; flex-wrap: wrap; }
+
+/* Skeleton loader */
+.skeleton {
+  background: linear-gradient(90deg, #1a2240 0%, #242e55 50%, #1a2240 100%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.4s ease infinite;
+  border-radius: 8px;
+}
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Tap-friendly buttons */
+button, .btn {
+  touch-action: manipulation;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton { animation: none; }
+}

@@ -1,0 +1,24 @@
+name: ci
+on:
+  push:
+    branches: [main, 'claude/**']
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - name: Install
+        run: npm install --workspaces --include-workspace-root --no-audit --no-fund
+      - name: Typecheck
+        run: npm run typecheck --if-present
+      - name: Test scoring engine
+        run: npm --workspace @dbp/scoring run test
+      - name: Test API
+        run: npm --workspace @dbp/api run test

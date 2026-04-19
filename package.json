@@ -1,0 +1,27 @@
+{
+  "name": "dbp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Sports betting advisory platform — mobile-first recommendations with transparent scoring.",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm-run-all --parallel dev:api dev:web",
+    "dev:api": "npm --workspace @dbp/api run dev",
+    "dev:web": "npm --workspace @dbp/web run dev",
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "seed": "npm --workspace @dbp/api run seed",
+    "typecheck": "npm run typecheck --workspaces --if-present"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.4.5"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

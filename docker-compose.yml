@@ -1,0 +1,53 @@
+version: "3.9"
+
+# Local development stack. The MVP API ships with an in-memory store, so
+# Postgres is optional — it's included here so migrations (db/schema.sql) can
+# be iterated on. Wire the API to Postgres by adding a SQL-backed store
+# implementation behind the same repository interface as store/in_memory.ts.
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    environment:
+      PORT: "4000"
+      HOST: "0.0.0.0"
+      CORS_ORIGINS: "http://localhost:3000"
+      PRODUCT_MODE: "advisory"
+      LOG_LEVEL: "info"
+    ports:
+      - "4000:4000"
+    depends_on:
+      - postgres
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    environment:
+      API_URL: "http://api:4000"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: dbp
+      POSTGRES_PASSWORD: dbp
+      POSTGRES_DB: dbp
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/00-schema.sql:ro
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+volumes:
+  postgres-data:
