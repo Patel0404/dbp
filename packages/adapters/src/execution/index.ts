@@ -1,5 +1,7 @@
 export { DisabledExecutionProvider } from "./disabled.js";
 export { OpenInSportsbookProvider } from "./open_in_sportsbook.js";
+export { KalshiExecutionProvider, type KalshiCredentials } from "./kalshi.js";
+export { BetfairExecutionProvider, type BetfairCredentials } from "./betfair.js";
 
 import type { ExecutionGate, ProductMode, UserCompliance, JurisdictionRule } from "@dbp/shared";
 

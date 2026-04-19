@@ -54,3 +54,30 @@ export async function fetchSports(): Promise<{ sports: Array<{ id: string; key: 
 export async function fetchComplianceMode(): Promise<{ productMode: string; globalKillSwitch: boolean; notice: string }> {
   return get(`/v1/compliance/mode`);
 }
+
+export interface IntegrationCatalogEntry {
+  key: string;
+  displayName: string;
+  description: string;
+  supportsRealMoney: boolean;
+  setupUrl?: string;
+  fields: Array<{ name: string; label: string; type: "text" | "password" | "textarea"; placeholder?: string; required?: boolean; help?: string }>;
+}
+
+export interface IntegrationRecord {
+  key: string;
+  enabled: boolean;
+  credentials: Record<string, string>;
+  updatedAt: string;
+  lastTestAt?: string;
+  lastTestOk?: boolean;
+  lastTestError?: string;
+}
+
+export async function fetchIntegrationCatalog(): Promise<{ catalog: IntegrationCatalogEntry[] }> {
+  return get(`/v1/admin/integrations/catalog`);
+}
+
+export async function fetchIntegrations(): Promise<{ integrations: Array<IntegrationRecord | null> }> {
+  return get(`/v1/admin/integrations`);
+}

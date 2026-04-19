@@ -7,6 +7,7 @@ import { executionRoutes } from "./execution.js";
 import { complianceRoutes } from "./compliance.js";
 import { healthRoutes } from "./health.js";
 import { adminRoutes } from "./admin.js";
+import { integrationRoutes } from "./integrations.js";
 
 export async function registerRoutes(app: FastifyInstance) {
   await app.register(healthRoutes);
@@ -17,4 +18,5 @@ export async function registerRoutes(app: FastifyInstance) {
   await app.register(executionRoutes, { prefix: "/v1" });
   await app.register(complianceRoutes, { prefix: "/v1" });
   await app.register(adminRoutes, { prefix: "/v1/admin" });
+  await app.register(integrationRoutes, { prefix: "/v1/admin" });
 }

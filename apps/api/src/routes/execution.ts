@@ -1,15 +1,14 @@
 import type { FastifyInstance } from "fastify";
 import { z } from "zod";
-import { gateExecution, DisabledExecutionProvider } from "@dbp/adapters";
+import { gateExecution } from "@dbp/adapters";
 import type { UserCompliance } from "@dbp/shared";
 import { store } from "../store/in_memory.js";
 import { config } from "../config.js";
+import { resolveExecutionProvider } from "../services/provider_registry.js";
 
 // In MVP advisory mode, execution endpoints exist but always reject unless the
 // operator explicitly flips the product to an execution mode AND the user's
 // jurisdiction and KYC allow it. This mirrors the spec's section 5 + 14.
-
-const provider = new DisabledExecutionProvider();
 
 const PreviewBody = z.object({
   recommendationId: z.string(),
@@ -41,6 +40,7 @@ export async function executionRoutes(app: FastifyInstance) {
         });
       }
 
+      const { provider, key } = await resolveExecutionProvider();
       const preview = await provider.previewBet({
         marketId: rec.marketId,
         side: rec.side,
@@ -49,7 +49,7 @@ export async function executionRoutes(app: FastifyInstance) {
         userId: body.userId,
         jurisdictionCode: body.jurisdictionCode,
       });
-      return { preview, gate };
+      return { preview, gate, provider: key };
     },
   );
 
@@ -74,6 +74,7 @@ export async function executionRoutes(app: FastifyInstance) {
           error: { code: "execution_gated", message: "real-money execution not permitted", reason: gate.reason },
         });
       }
+      const { provider, key } = await resolveExecutionProvider();
       const result = await provider.placeBet({
         marketId: rec.marketId,
         side: rec.side,
@@ -83,7 +84,7 @@ export async function executionRoutes(app: FastifyInstance) {
         jurisdictionCode: body.jurisdictionCode,
         idempotencyKey: body.idempotencyKey,
       });
-      return { result, gate };
+      return { result, gate, provider: key };
     },
   );
 }

@@ -38,5 +38,5 @@ coverage/
 # Data
 *.sqlite
 *.sqlite-journal
-data/*.db
+data/
 tmp/

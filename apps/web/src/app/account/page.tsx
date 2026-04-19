@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function AccountPage() {
   return (
     <div className="space-y-4 pt-2">
@@ -5,6 +7,17 @@ export default function AccountPage() {
         <h1 className="text-xl font-bold">Account</h1>
         <p className="muted text-sm">Settings, limits, and responsible gaming controls.</p>
       </section>
+
+      <Link
+        href="/account/integrations"
+        className="card p-4 flex items-center justify-between active:scale-[0.99] transition-transform"
+      >
+        <div>
+          <div className="font-semibold text-sm">Integrations</div>
+          <div className="muted text-[12px]">Connect Kalshi, Betfair, sportsbooks &amp; odds feeds</div>
+        </div>
+        <span className="secondary">›</span>
+      </Link>
 
       <SectionCard title="Responsible gaming">
         <ToggleRow label="Loss limit" value="Not set" />
